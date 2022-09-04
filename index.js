@@ -36,6 +36,8 @@ app.get("/api/users", (req,res) => {
 })
 
 let exercises = new Array();
+
+// log exercise by user id
 app.post("/api/users/:_id/exercises",(req,res) => {
   let id = req.params._id;
   let date = req.body.date ? new Date(req.body.date) : new Date();
@@ -57,6 +59,36 @@ app.post("/api/users/:_id/exercises",(req,res) => {
   })
 })
 
+// get all exercise logs of user
+app.get("/api/users/:_id/logs", (req,res) => {
+
+  let userlogs = exercises.filter((element) => {
+    return element.usersID === req.params._id;
+  })
+  
+  if(req.query.from && req.query.to){
+    let from = new Date(req.query.from);
+    let to = new Date(req.query.to);
+
+    userlogs = userlogs.filter((element) => {
+      let logdate = new Date(element.date)
+      return logdate <= to && logdate >= from;
+    });
+  }
+
+  if(req.query.limit) {
+    let limit = parseInt(req.query.limit);
+    userlogs.splice(limit);
+  }
+
+  let response = {
+    "_id" : req.params._id,
+    "username" : users.at(req.params._id),
+    "count" : userlogs.length,
+    "log" : userlogs
+  }
+  res.json(response)
+})
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
