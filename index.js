@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 });
 
 let users = new Array();
-
+const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
@@ -91,6 +91,6 @@ app.get("/api/users/:_id/logs", (req,res) => {
 })
 
 
-const listener = app.listen(process.env.YOUR_PORT || process.env.PORT || 80,process.env.YOUR_HOST || '0.0.0.0', () => {
+const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
