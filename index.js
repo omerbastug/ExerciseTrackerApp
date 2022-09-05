@@ -91,6 +91,6 @@ app.get("/api/users/:_id/logs", (req,res) => {
 })
 
 
-const listener = app.listen(process.env.PORT || 3000, () => {
+const listener = app.listen(process.env.YOUR_PORT || process.env.PORT || 80,process.env.YOUR_HOST || '0.0.0.0', () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
